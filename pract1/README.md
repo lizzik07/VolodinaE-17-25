@@ -82,3 +82,48 @@ chmod +x top_protocols.sh
 141 wesp
 140 shim6
 ```
+
+---
+
+## Задача 3. Banner
+
+**Условие:** написать программу `banner` средствами bash, которая выводит текст в рамке, размер которой зависит от длины текста.
+
+**Файл:** `banner`
+
+**Код:**
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 \"text\"" >&2
+    exit 1
+fi
+
+text="$1"
+len=${#text}
+border=$(printf '%*s' "$((len + 2))" '' | tr ' ' '-')
+
+printf '+%s+\n' "$border"
+printf '| %s |\n' "$text"
+printf '+%s+\n' "$border"
+```
+
+**Запуск:**
+
+```bash
+chmod +x banner
+./banner "Hello from RTU MIREA!"
+```
+
+**Вывод:**
+
+```text
++-----------------------+
+| Hello from RTU MIREA! |
++-----------------------+
+```
+
+Проверено на https://www.shellcheck.net/ — предупреждений нет.
