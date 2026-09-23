@@ -384,3 +384,47 @@ echo c > 3.log
 ./2.txt
 Создан архив: archive_txt.tar
 ```
+
+---
+
+## Задача 9. Замена 4 пробелов на табуляцию
+
+**Условие:** заменить в файле все последовательности из 4 пробелов на символ табуляции. Входной и выходной файлы задаются аргументами.
+
+**Файл:** `spaces_to_tabs.sh`
+
+**Код:**
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 input output" >&2
+    exit 1
+fi
+
+input="$1"
+output="$2"
+tab=$(printf '\t')
+
+sed "s/    /${tab}/g" "$input" > "$output"
+```
+
+**Запуск:**
+
+```bash
+chmod +x spaces_to_tabs.sh
+printf 'hello    world\n    indented line\n' > in.txt
+./spaces_to_tabs.sh in.txt out.txt
+cat -A out.txt
+```
+
+**Вывод:**
+
+```text
+hello^Iworld$
+^Iindented line$
+```
+
+`^I` — символ табуляции (отображение `cat -A`).
