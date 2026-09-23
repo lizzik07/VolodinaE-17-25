@@ -428,3 +428,37 @@ hello^Iworld$
 ```
 
 `^I` — символ табуляции (отображение `cat -A`).
+
+---
+
+## Задача 10. Поиск пустых файлов
+
+**Условие:** вывести названия всех пустых текстовых файлов в указанной директории. Директория передаётся параметром.
+
+**Файл:** `empty_files.sh`
+
+**Код:**
+
+```bash
+#!/bin/bash
+dir="${1:-.}"
+find "$dir" -maxdepth 1 -type f -empty
+```
+
+**Запуск:**
+
+```bash
+chmod +x empty_files.sh
+mkdir -p testdir
+touch testdir/empty1.txt
+echo "not empty" > testdir/full.txt
+touch testdir/empty2.txt
+./empty_files.sh testdir
+```
+
+**Вывод:**
+
+```text
+testdir/empty1.txt
+testdir/empty2.txt
+```
