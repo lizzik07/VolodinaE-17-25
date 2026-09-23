@@ -276,3 +276,58 @@ OK: ./a.c
 НЕТ КОММЕНТАРИЯ: ./b.c
 OK: ./c.py
 ```
+
+---
+
+## Задача 7. Поиск файлов-дубликатов
+
+**Условие:** найти файлы-дубликаты (имеющие одну или более копий содержимого) по заданному пути и подкаталогам.
+
+**Файл:** `find_duplicates.sh`
+
+**Код:**
+
+```bash
+#!/bin/bash
+dir="${1:-.}"
+
+find "$dir" -type f -print0 \
+  | xargs -0 md5sum \
+  | sort \
+  | awk '
+      {
+        hash = $1
+        $1 = ""
+        file = substr($0, 2)
+        if (hash == prev_hash) {
+          if (!printed_group) {
+            print prev_file
+            printed_group = 1
+          }
+          print file
+        } else {
+          printed_group = 0
+        }
+        prev_hash = hash
+        prev_file = file
+      }
+    '
+```
+
+**Запуск:**
+
+```bash
+chmod +x find_duplicates.sh
+mkdir dtest
+echo "same content" > dtest/a.txt
+echo "same content" > dtest/b.txt
+echo "other" > dtest/c.txt
+./find_duplicates.sh dtest
+```
+
+**Вывод:**
+
+```text
+dtest/a.txt
+dtest/b.txt
+```
