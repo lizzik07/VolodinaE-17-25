@@ -223,3 +223,56 @@ banner "test"
 | test   |
 +--------+
 ```
+
+---
+
+## Задача 6. Проверка комментария в первой строке (c/js/py)
+
+**Условие:** проверить наличие комментария в первой строке файлов с расширением `.c`, `.js`, `.py`.
+
+**Файл:** `check_comments.sh`
+
+**Код:**
+
+```bash
+#!/bin/bash
+dir="${1:-.}"
+
+find "$dir" -type f \( -name "*.c" -o -name "*.js" -o -name "*.py" \) | while read -r f; do
+    first_line=$(head -n 1 "$f")
+    case "$f" in
+        *.py)
+            if [[ "$first_line" == \#* ]]; then
+                echo "OK: $f"
+            else
+                echo "НЕТ КОММЕНТАРИЯ: $f"
+            fi
+            ;;
+        *.c|*.js)
+            if [[ "$first_line" == //* ]] || [[ "$first_line" == /\** ]]; then
+                echo "OK: $f"
+            else
+                echo "НЕТ КОММЕНТАРИЯ: $f"
+            fi
+            ;;
+    esac
+done
+```
+
+**Запуск:**
+
+```bash
+chmod +x check_comments.sh
+./check_comments.sh .
+```
+
+**Вывод:**
+
+```text
+НЕТ КОММЕНТАРИЯ: ./hello.js
+НЕТ КОММЕНТАРИЯ: ./hello.c
+НЕТ КОММЕНТАРИЯ: ./bench.py
+OK: ./a.c
+НЕТ КОММЕНТАРИЯ: ./b.c
+OK: ./c.py
+```
