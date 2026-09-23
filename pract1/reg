@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 program" >&2
+    exit 1
+fi
+
+prog="$1"
+
+if [ ! -f "$prog" ]; then
+    echo "Файл $prog не найден" >&2
+    exit 1
+fi
+
+chmod 755 "$prog"
+cp "$prog" /usr/local/bin/
+echo "Команда $(basename "$prog") установлена в /usr/local/bin"
