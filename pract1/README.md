@@ -331,3 +331,56 @@ echo "other" > dtest/c.txt
 dtest/a.txt
 dtest/b.txt
 ```
+
+---
+
+## Задача 8. Архивация файлов по расширению
+
+**Условие:** найти все файлы в каталоге с указанным расширением и заархивировать их в архив tar.
+
+**Файл:** `archive_by_ext.sh`
+
+**Код:**
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 extension" >&2
+    exit 1
+fi
+
+ext="$1"
+archive="archive_${ext}.tar"
+
+files=$(find . -maxdepth 1 -type f -name "*.${ext}")
+
+if [ -z "$files" ]; then
+    echo "Файлы с расширением .$ext не найдены" >&2
+    exit 1
+fi
+
+find . -maxdepth 1 -type f -name "*.${ext}" -print0 | xargs -0 tar -cvf "$archive"
+echo "Создан архив: $archive"
+```
+
+**Запуск:**
+
+```bash
+chmod +x archive_by_ext.sh
+mkdir atest
+cd atest
+echo a > 1.txt
+echo b > 2.txt
+echo c > 3.log
+../archive_by_ext.sh txt
+```
+
+**Вывод:**
+
+```text
+./1.txt
+./2.txt
+Создан архив: archive_txt.tar
+```
