@@ -127,3 +127,49 @@ chmod +x banner
 ```
 
 Проверено на https://www.shellcheck.net/ — предупреждений нет.
+
+---
+
+## Задача 4. Идентификаторы C/C++/Java
+
+**Условие:** вывести все идентификаторы (по правилам C/C++/Java) в файле, без повторений.
+
+**Файлы:** `identifiers.sh`, тестовый `hello.c`
+
+**Код `identifiers.sh`:**
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 file" >&2
+    exit 1
+fi
+
+grep -oE '[A-Za-z_][A-Za-z0-9_]*' "$1" | sort -u | tr '\n' ' '
+echo
+```
+
+**Тестовый файл `hello.c`:**
+
+```c
+#include <stdio.h>
+int main(void) {
+    printf("hello world\n");
+    return 0;
+}
+```
+
+**Запуск:**
+
+```bash
+chmod +x identifiers.sh
+./identifiers.sh hello.c
+```
+
+**Вывод:**
+
+```text
+h hello include int main n printf return stdio void world
+```
