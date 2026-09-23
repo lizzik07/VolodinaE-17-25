@@ -173,3 +173,53 @@ chmod +x identifiers.sh
 ```text
 h hello include int main n printf return stdio void world
 ```
+
+---
+
+## Задача 5. Регистрация команды (reg)
+
+**Условие:** написать программу, которая задаёт правильные права доступа пользовательской команде и копирует её в `/usr/local/bin`.
+
+**Файл:** `reg`
+
+**Код:**
+
+```bash
+#!/bin/bash
+set -euo pipefail
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 program" >&2
+    exit 1
+fi
+
+prog="$1"
+
+if [ ! -f "$prog" ]; then
+    echo "Файл $prog не найден" >&2
+    exit 1
+fi
+
+chmod 755 "$prog"
+cp "$prog" /usr/local/bin/
+echo "Команда $(basename "$prog") установлена в /usr/local/bin"
+```
+
+**Запуск:**
+
+```bash
+chmod +x reg
+./reg banner
+which banner
+banner "test"
+```
+
+**Вывод:**
+
+```text
+Команда banner установлена в /usr/local/bin
+/usr/local/bin/banner
++--------+
+| test   |
++--------+
+```
