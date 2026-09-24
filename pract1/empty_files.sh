@@ -1,3 +1,2 @@
 #!/bin/bash
-dir="${1:-.}"
-find "$dir" -maxdepth 1 -type f -empty
+find "${1:-.}" -maxdepth 1 -type f -empty
