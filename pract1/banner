@@ -1,0 +1,5 @@
+#!/bin/bash
+b=$(printf '%*s' $((${#1} + 2)) '' | tr ' ' '-')
+echo "+$b+"
+echo "| $1 |"
+echo "+$b+"
