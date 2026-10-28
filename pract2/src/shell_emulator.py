@@ -74,18 +74,35 @@ def main():
     )
     args = parser.parse_args()
 
-    # 1. Отладочный вывод (ДОЛЖЕН БЫТЬ ПЕРВЫМ)
     print("--- Отладка параметров ---")
     print(f"VFS path: {args.vfs}")
     print(f"Script path: {args.script}")
     print("--------------------------")
 
-    # 2. Загрузка VFS (ДОЛЖНА БЫТЬ ВТОРОЙ)
     vfs = VFS()
     if args.vfs:
         print(f"Загрузка VFS из {args.vfs}...")
         vfs.load_from_csv(args.vfs)
         print("VFS успешно загружена в память.")
+
+    if args.script:
+        print(f"Выполнение скрипта {args.script}...")
+        run_script(args.script)
+    else:
+        while True:
+            try:
+                user_input = input(get_prompt())
+            except (KeyboardInterrupt, EOFError):
+                print("\nВыход...")
+                break
+
+            if not user_input.strip():
+                continue
+
+            parts = parse_input(user_input)
+            if execute_command(parts):
+                break
+
 
 if __name__ == "__main__":
     main()

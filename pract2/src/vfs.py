@@ -16,22 +16,15 @@ class VFS:
     """Класс виртуальной файловой системы."""
 
     def __init__(self):
-        # Корень всегда существует
         self.root = VFSNode("/", is_dir=True)
 
     def load_from_csv(self, filepath):
-        """Загружает структуру из CSV-файла.
-        
-        Формат CSV: path,type,content
-        Пример:
-        /dir1,dir,
-        /dir1/file.txt,file,Hello World
-        """
+        """Загружает структуру из CSV-файла (path,type,content)."""
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 reader = csv.reader(f)
                 for row in reader:
-                    if len(row) < 2:
+                    if not row or len(row) < 2:
                         continue
                     path, node_type = row[0], row[1]
                     content = row[2] if len(row) > 2 else ""
