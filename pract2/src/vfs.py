@@ -1,6 +1,9 @@
 import csv
 import sys
 
+MIN_CSV_FIELDS = 2
+CONTENT_INDEX = 2
+
 
 class VFSNode:
     """Узел виртуальной файловой системы."""
@@ -24,10 +27,12 @@ class VFS:
             with open(filepath, "r", encoding="utf-8") as f:
                 reader = csv.reader(f)
                 for row in reader:
-                    if not row or len(row) < 2:
+                    if not row or len(row) < MIN_CSV_FIELDS:
                         continue
                     path, node_type = row[0], row[1]
-                    content = row[2] if len(row) > 2 else ""
+                    content = (
+                        row[CONTENT_INDEX] if len(row) > CONTENT_INDEX else ""
+                    )
                     self._create_node(path, node_type, content)
         except FileNotFoundError:
             print(
@@ -46,9 +51,10 @@ class VFS:
         """Вспомогательный метод для создания узлов по пути."""
         parts = [p for p in path.split("/") if p]
         current = self.root
+        last_index = len(parts) - 1
 
         for i, part in enumerate(parts):
-            is_last = (i == len(parts) - 1)
+            is_last = (i == last_index)
             is_dir = (node_type == "dir") if is_last else True
 
             if part not in current.children:
