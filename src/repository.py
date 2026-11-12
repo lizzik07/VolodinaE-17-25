@@ -8,12 +8,18 @@ from urllib.request import urlopen
 from semver import select_version
 
 REQUEST_TIMEOUT = 20
+REQUEST_ATTEMPTS = 3
 
 
 def request_json(url):
     """Читает HTTP JSON; сетевые ошибки передаются вызывающему коду."""
-    with urlopen(url, timeout=REQUEST_TIMEOUT) as response:
-        return json.loads(response.read().decode("utf-8"))
+    for attempt in range(REQUEST_ATTEMPTS):
+        try:
+            with urlopen(url, timeout=REQUEST_TIMEOUT) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except OSError:
+            if attempt == REQUEST_ATTEMPTS - 1:
+                raise
 
 
 def load_test_graph(filepath):

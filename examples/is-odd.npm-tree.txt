@@ -1,0 +1,4 @@
+comparison-demo@1.0.0
+└─┬ is-odd@3.0.1
+  └── is-number@6.0.0
+

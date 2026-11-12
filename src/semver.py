@@ -5,7 +5,7 @@ import re
 CORE_SIZE = 3
 MAJOR = 0
 MINOR = 1
-PATCH = 2
+TWO_COMPONENTS = 2
 VERSION_PATTERN = r"v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"
 VERSION_PATTERN += r"(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?"
 
@@ -61,7 +61,7 @@ def upper_bound(core, index):
 def compatible_upper(core, size, operator):
     """Вычисляет верхнюю границу caret и tilde."""
     if operator == "~":
-        index = MINOR if size > 1 else MAJOR
+        index = MINOR if size >= TWO_COMPONENTS else MAJOR
     else:
         nonzero = [index for index in range(size) if core[index]]
         index = nonzero[0] if nonzero else max(MAJOR, size - 1)
