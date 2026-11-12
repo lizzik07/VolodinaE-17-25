@@ -18,3 +18,12 @@ src/semver.py самостоятельно выбирает версии по д
 ```sh
 ./run.sh --package is-odd --version 3.0.1
 ```
+
+Этап 3: рекурсивный BFS, глубина, циклы и офлайн-репозиторий.
+Глубина — максимальное число рёбер от корня; 0 показывает только корень.
+
+```sh
+./run.sh --package A --test-file tests/fixtures/cycle.json --depth 10
+./run.sh --package A --test-file tests/fixtures/diamond.json
+./run.sh --package A --test-file tests/fixtures/isolated.json
+```

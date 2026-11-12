@@ -1,23 +1,35 @@
-"""Этап 2: прямые зависимости заданной версии пакета."""
+"""Этап 3: получение и обход графа зависимостей."""
 
 import sys
 
 from config import parse_args, print_config
+from graph import bfs_recursive
 from repository import NpmRepository, load_test_graph
 
 
+def build_graph(args):
+    """Выбирает источник и выполняет обход от исходного пакета."""
+    if args.test_file:
+        source = load_test_graph(args.test_file)
+        if args.package not in source:
+            raise ValueError("исходный пакет отсутствует в тестовом графе")
+        root = args.package
+        loader = source.__getitem__
+    else:
+        repository = NpmRepository(args.url)
+        root = repository.resolve(args.package, args.version)
+        loader = repository.dependencies
+    return root, bfs_recursive([root], loader, args.depth)
+
+
 def main(argv=None):
-    """Выводит конфигурацию и непосредственные зависимости."""
+    """Выводит граф и возвращает код завершения."""
     args = parse_args(argv)
-    print_config(args)
     try:
-        if args.test_file:
-            deps = load_test_graph(args.test_file)[args.package]
-        else:
-            repository = NpmRepository(args.url)
-            root = repository.resolve(args.package, args.version)
-            deps = repository.dependencies(root)
-        print(deps)
+        root, graph = build_graph(args)
+        print_config(args)
+        for package, deps in graph.items():
+            print(f"{package}: {deps}")
     except (OSError, ValueError, KeyError) as error:
         print(f"Ошибка: {error}", file=sys.stderr)
         return 1
