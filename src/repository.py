@@ -9,6 +9,7 @@ from semver import select_version
 
 REQUEST_TIMEOUT = 20
 REQUEST_ATTEMPTS = 3
+LAST_ATTEMPT = REQUEST_ATTEMPTS - 1
 
 
 def request_json(url):
@@ -18,7 +19,7 @@ def request_json(url):
             with urlopen(url, timeout=REQUEST_TIMEOUT) as response:
                 return json.loads(response.read().decode("utf-8"))
         except OSError:
-            if attempt == REQUEST_ATTEMPTS - 1:
+            if attempt == LAST_ATTEMPT:
                 raise
 
 

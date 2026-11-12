@@ -107,7 +107,8 @@ def hyphen_matches(key, text):
     high_core, high_size, high_suffix = partial(finish)
     lower = version_key(format_core(low_core) + low_suffix)
     if high_size < CORE_SIZE:
-        return lower <= key < upper_bound(high_core, high_size - 1)
+        upper = upper_bound(high_core, high_size - 1)
+        return lower <= key < upper
     upper = version_key(format_core(high_core) + high_suffix)
     return lower <= key <= upper
 
