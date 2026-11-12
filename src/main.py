@@ -1,9 +1,9 @@
-"""Этап 3: получение и обход графа зависимостей."""
+"""Этап 4: прямой и обратный рекурсивный обход зависимостей."""
 
 import sys
 
 from config import parse_args, print_config
-from graph import bfs_recursive
+from graph import bfs_recursive, candidate_graph, reverse_graph
 from repository import NpmRepository, load_test_graph
 
 
@@ -19,6 +19,11 @@ def build_graph(args):
         repository = NpmRepository(args.url)
         root = repository.resolve(args.package, args.version)
         loader = repository.dependencies
+        source = None
+    if args.reverse:
+        if source is None:
+            source = candidate_graph(repository, root, args.candidates)
+        loader = reverse_graph(source).__getitem__
     return root, bfs_recursive([root], loader, args.depth)
 
 
@@ -28,6 +33,8 @@ def main(argv=None):
     try:
         root, graph = build_graph(args)
         print_config(args)
+        if args.reverse:
+            print("Reverse dependencies:", sorted(set(graph) - {root}))
         for package, deps in graph.items():
             print(f"{package}: {deps}")
     except (OSError, ValueError, KeyError) as error:

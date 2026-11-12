@@ -27,3 +27,19 @@ src/semver.py самостоятельно выбирает версии по д
 ./run.sh --package A --test-file tests/fixtures/diamond.json
 ./run.sh --package A --test-file tests/fixtures/isolated.json
 ```
+
+Этап 4: обратные зависимости ищутся тем же рекурсивным BFS после разворота
+рёбер. В офлайн-режиме область поиска — весь JSON-файл.
+
+```sh
+./run.sh --package F --test-file tests/fixtures/repository.json --reverse
+./run.sh --package A --test-file tests/fixtures/cycle.json --reverse
+```
+
+Для npm область задаётся через --candidates; полный поиск по всему реестру
+из метаданных одного пакета невозможен. Кандидаты берутся в версии latest,
+целевой пакет — в --version. Ищутся потребители именно этой версии.
+
+```sh
+./run.sh --package is-number --version 6.0.0 --reverse --candidates is-odd
+```

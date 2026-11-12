@@ -18,3 +18,19 @@ def bfs_recursive(packages, get_deps, max_depth, graph=None, level=ROOT_LEVEL):
     if level < max_depth:
         bfs_recursive(next_level, get_deps, max_depth, graph, level + 1)
     return graph
+
+
+def reverse_graph(graph):
+    """Разворачивает связи перед обходом обратных зависимостей."""
+    result = {package: [] for package in graph}
+    for package, deps in graph.items():
+        for dep in deps:
+            result.setdefault(dep, []).append(package)
+    return {package: sorted(set(deps)) for package, deps in result.items()}
+
+
+def candidate_graph(repository, root, names):
+    """Собирает прямые связи явно заданной области обратного поиска npm."""
+    nodes = {repository.resolve(name, "latest") for name in names}
+    nodes.add(root)
+    return {node: repository.dependencies(node) for node in sorted(nodes)}
