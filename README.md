@@ -11,3 +11,10 @@ python3 -m unittest discover -s tests -v
 ```
 
 Настройки и функции описаны в docstring модулей src/config.py и src/main.py.
+
+Этап 2: src/repository.py получает npm JSON напрямую через urllib;
+src/semver.py самостоятельно выбирает версии по диапазонам зависимостей.
+
+```sh
+./run.sh --package is-odd --version 3.0.1
+```
