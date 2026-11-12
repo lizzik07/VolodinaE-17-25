@@ -145,3 +145,8 @@ python3 -m pycodestyle --config=/dev/null --ignore= --max-line-length=79 src
   satisfies — проверка всего диапазона; select_version — выбор версии.
 
 В истории отражены пять этапов работы и последующие исправления.
+
+## Предыдущие практические работы
+
+- [Практика 1](pract1/README.md).
+- [Практика 2 — эмулятор оболочки](pract2/README.md).

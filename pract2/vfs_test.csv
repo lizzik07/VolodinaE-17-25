@@ -1,0 +1,7 @@
+/dir1,dir,
+/dir1/file1.txt,file,Hello from file1
+/dir1/file2.txt,file,Hello from file2
+/dir2,dir,
+/dir2/dir3,dir,
+/dir2/dir3/deep.txt,file,Deep file content
+/readme.md,file,This is a readme file
