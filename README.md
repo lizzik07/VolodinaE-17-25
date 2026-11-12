@@ -18,7 +18,6 @@ Python 3.9 или новее, только стандартная библиот
 
 ```sh
 ./run.sh --package is-odd --version 3.0.1 --depth 3
-python3 -m unittest discover -s tests -v
 ```
 
 Без shell-скрипта:
@@ -107,12 +106,22 @@ Graphviz; сохранять бинарные изображения прогр�
 ./run.sh --package B --test-file tests/fixtures/isolated.json
 ```
 
-Автоматические тесты проверяют опции, версии и кэш, BFS, глубину, циклы,
-общие зависимости, обратный обход, ошибки файлов/сети и корректный DOT.
+Проверки выполняются вручную командами из разделов «Примеры использования»
+и «Ошибки и проверки». В tests/fixtures находятся только JSON-данные:
+
+- repository.json — разветвлённый граф; обратный поиск F на глубине 1
+  должен найти D и E, на глубине 3 — A, B, C, D, E.
+- cycle.json — цикл A → B → C → A; обход должен завершиться без зацикливания.
+- diamond.json — общая зависимость D для B и C; D должна быть одной вершиной.
+- isolated.json — пакет A без зависимостей; DOT должен содержать вершину A.
+
+Ошибочные команды должны выводить понятное сообщение и ненулевой код возврата.
+Автоматические тестовые скрипты не используются.
+
 Проверка стиля при установленном pycodestyle:
 
 ```sh
-python3 -m pycodestyle --config=/dev/null --ignore= --max-line-length=79 src tests
+python3 -m pycodestyle --config=/dev/null --ignore= --max-line-length=79 src
 ```
 
 ## Функции
@@ -135,5 +144,4 @@ python3 -m pycodestyle --config=/dev/null --ignore= --max-line-length=79 src tes
   диапазон с дефисом; prerelease_allowed — правило prerelease;
   satisfies — проверка всего диапазона; select_version — выбор версии.
 
-Документация тестовых методов находится в docstring в tests/.
 В истории отражены пять этапов работы и последующие исправления.
