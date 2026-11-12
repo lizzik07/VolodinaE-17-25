@@ -7,7 +7,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-visualization = __import__("visualization")
+visualization = __import__("main")
 application = __import__("main")
 
 

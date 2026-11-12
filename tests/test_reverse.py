@@ -5,9 +5,9 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-config = __import__("config")
+config = __import__("main")
 application = __import__("main")
-graph_module = __import__("graph")
+graph_module = __import__("main")
 
 
 class ReverseTests(unittest.TestCase):

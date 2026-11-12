@@ -7,7 +7,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-parse_args = __import__("config").parse_args
+parse_args = __import__("main").parse_args
 
 
 class ConfigTests(unittest.TestCase):

@@ -9,8 +9,8 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-graph_module = __import__("graph")
-repository = __import__("repository")
+graph_module = __import__("main")
+repository = __import__("main")
 application = __import__("main")
 
 

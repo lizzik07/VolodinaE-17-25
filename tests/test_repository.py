@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-repository = __import__("repository")
-semver = __import__("semver")
+repository = __import__("main")
+semver = __import__("main")
 
 
 class VersionTests(unittest.TestCase):

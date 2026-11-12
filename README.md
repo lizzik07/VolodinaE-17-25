@@ -117,17 +117,19 @@ python3 -m pycodestyle --config=/dev/null --ignore= --max-line-length=79 src tes
 
 ## Функции
 
-- config.py: nonempty — непустое значение; depth_value — глубина;
+Весь код программы находится в одном файле src/main.py.
+
+- nonempty — непустое значение; depth_value — глубина;
   validate_names — имена, версия, URL; parse_args — разбор опций.
-- repository.py: request_json — HTTP JSON; load_test_graph — тестовый граф;
+- request_json — HTTP JSON; load_test_graph — тестовый граф;
   alias_target — npm alias. NpmRepository.__init__ создаёт кэши, resolve
   выбирает версию и вершину, dependencies получает её прямые зависимости.
-- graph.py: bfs_recursive обрабатывает граф по уровням с рекурсией;
+- bfs_recursive обрабатывает граф по уровням с рекурсией;
   reverse_graph разворачивает связи для обратного обхода.
-- visualization.py: generate_graphviz создаёт DOT, включая отдельные вершины.
-- main.py: build_graph выбирает источник и запускает BFS; print_result
-  выводит результат; main обрабатывает ошибки и возвращает код завершения.
-- semver.py: version_key — порядок версий; partial — частичная версия;
+- generate_graphviz создаёт DOT, включая отдельные вершины.
+- build_graph выбирает источник и запускает BFS; print_result выводит
+  результат; main обрабатывает ошибки и возвращает код завершения.
+- version_key — порядок версий; partial — частичная версия;
   format_core — строка версии; upper_bound и compatible_upper — границы;
   compare — сравнение; token_matches — одно условие; hyphen_matches —
   диапазон с дефисом; prerelease_allowed — правило prerelease;
