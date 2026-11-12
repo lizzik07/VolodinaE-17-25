@@ -25,7 +25,7 @@ class ConfigTests(unittest.TestCase):
                  ["--depth", "101"], ["--url", "file:///tmp/x"],
                  ["--url", "http://example.org:wrong"],
                  ["--version", ""], ["--version", "a/b"],
-                 ["--test-file", ""], ["--candidates", "a/b"],
+                 ["--test-file", ""],
                  ["--reverse"], ["--package", "a b"]]
         for extra in cases:
             with self.subTest(extra=extra):

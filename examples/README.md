@@ -11,7 +11,7 @@
 | is-number@7.0.0 | 1 | 0 | совпадает, отдельная вершина |
 
 Для каждого пакета сохранены описание Graphviz (*.dot) и штатное дерево
-(*.npm-tree.txt). comparison.json фиксирует результаты сравнения.
+(*.npm-tree.txt). Ниже описаны команды и результат сравнения.
 Бинарные изображения не добавлены: вариант №6 требует вывод описания графа.
 
 ## Воспроизведение визуализатора
@@ -19,9 +19,9 @@
 Из корня репозитория:
 
 ```sh
-./run.sh --package is-odd --version 3.0.1 --depth 5 --dot-only
-./run.sh --package is-even --version 1.0.0 --depth 5 --dot-only
-./run.sh --package is-number --version 7.0.0 --depth 5 --dot-only
+./run.sh --package is-odd --version 3.0.1 --depth 5
+./run.sh --package is-even --version 1.0.0 --depth 5
+./run.sh --package is-number --version 7.0.0 --depth 5
 ```
 
 Пример is-even:

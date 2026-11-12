@@ -32,7 +32,7 @@ def depth_value(value):
 
 def validate_names(parser, args):
     """Проверяет имена пакетов, версию или тег и адрес реестра."""
-    names = [args.package] + (args.candidates or [])
+    names = [args.package]
     for name in names:
         if not re.fullmatch(PACKAGE_PATTERN, name):
             parser.error(f"неверное имя пакета: {name}")
@@ -45,8 +45,8 @@ def validate_names(parser, args):
         address.port
     except ValueError:
         parser.error("--url: неверный номер порта")
-    if args.reverse and not args.test_file and not args.candidates:
-        parser.error("для обратного поиска npm задайте --candidates")
+    if args.reverse and not args.test_file:
+        parser.error("для обратного поиска укажите файл тестового репозитория")
 
 
 def parse_args(argv=None):
@@ -58,14 +58,6 @@ def parse_args(argv=None):
     parser.add_argument("--depth", type=depth_value, default=DEFAULT_DEPTH)
     parser.add_argument("--test-file", type=nonempty)
     parser.add_argument("--reverse", action="store_true")
-    parser.add_argument("--candidates", nargs="+", type=nonempty)
-    parser.add_argument("--dot-only", action="store_true")
     args = parser.parse_args(argv)
     validate_names(parser, args)
     return args
-
-
-def print_config(args):
-    """Печатает конфигурацию в формате ключ-значение."""
-    for key, value in vars(args).items():
-        print(f"{key}: {value}")

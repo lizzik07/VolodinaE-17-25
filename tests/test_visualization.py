@@ -1,4 +1,4 @@
-"""Проверки вывода Graphviz и режима чистого DOT."""
+"""Проверки вывода Graphviz и вывода DOT."""
 
 import contextlib
 import io
@@ -29,13 +29,13 @@ class VisualizationTests(unittest.TestCase):
         dot = visualization.generate_graphviz({'a"b': []})
         self.assertIn('"a\\"b";', dot)
 
-    def test_dot_only(self):
-        """Режим dot-only выводит только описание графа."""
+    def test_default_output(self):
+        """Обычный запуск выводит описание графа без лишних данных."""
         path = Path(__file__).parent / "fixtures/isolated.json"
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             status = application.main(["--package", "A", "--test-file",
-                                       str(path), "--dot-only"])
+                                       str(path)])
         self.assertEqual(status, 0)
         self.assertEqual(output.getvalue(),
                          'digraph Dependencies {\n    "A";\n}\n')

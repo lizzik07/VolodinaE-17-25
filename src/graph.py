@@ -27,10 +27,3 @@ def reverse_graph(graph):
         for dep in deps:
             result.setdefault(dep, []).append(package)
     return {package: sorted(set(deps)) for package, deps in result.items()}
-
-
-def candidate_graph(repository, root, names):
-    """Собирает прямые связи явно заданной области обратного поиска npm."""
-    nodes = {repository.resolve(name, "latest") for name in names}
-    nodes.add(root)
-    return {node: repository.dependencies(node) for node in sorted(nodes)}

@@ -2,8 +2,8 @@
 
 import sys
 
-from config import parse_args, print_config
-from graph import bfs_recursive, candidate_graph, reverse_graph
+from config import parse_args
+from graph import bfs_recursive, reverse_graph
 from repository import NpmRepository, load_test_graph
 from visualization import generate_graphviz
 
@@ -20,23 +20,15 @@ def build_graph(args):
         repository = NpmRepository(args.url)
         root = repository.resolve(args.package, args.version)
         loader = repository.dependencies
-        source = None
     if args.reverse:
-        if source is None:
-            source = candidate_graph(repository, root, args.candidates)
         loader = reverse_graph(source).__getitem__
     return root, bfs_recursive([root], loader, args.depth)
 
 
 def print_result(args, root, graph):
-    """Выводит настройки, связи, обратный список и описание Graphviz."""
-    if not args.dot_only:
-        print_config(args)
-        if args.reverse:
-            print("Reverse dependencies:", sorted(set(graph) - {root}))
-        for package, deps in graph.items():
-            print(f"{package}: {deps}")
-        print("--- Graphviz DOT ---")
+    """Выводит обратные зависимости и описание графа на языке DOT."""
+    if args.reverse:
+        print("Reverse dependencies:", sorted(set(graph) - {root}))
     print(generate_graphviz(graph, args.reverse))
 
 
